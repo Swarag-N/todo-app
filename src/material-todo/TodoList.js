@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext} from 'react'
 
 import Paper from '@material-ui/core/Paper';
 
@@ -7,19 +7,18 @@ import Divider from '@material-ui/core/Divider';
 
 import TodoItem from './TodoItem'
 
-function TodoList({todoItems,handleRemoveTodo,handleToggle,handleEditTodo}){
-    if (todoItems.length>0){
+import {TodoContext} from '../context/todos.context'
+
+function TodoList(){
+    const {todos} = useContext(TodoContext)
+    if (todos.length>0){
     return(
     <Paper>
         <List>
-            {todoItems.map((todo,i)=>(
+            {todos.map((todo,i)=>(
                 <div key={todo.id}>
-                    <TodoItem {...todo} 
-                        key={todo.id}
-                        handleRemoveTodo={handleRemoveTodo} 
-                        handleToggle={handleToggle} 
-                        handleEditTodo={handleEditTodo}/>
-                    {i < todoItems.length-1 && <Divider/>}
+                    <TodoItem {...todo} key={todo.id}/>
+                    {i < todos.length-1 && <Divider/>}
                 </div >
         ))}
         </List>

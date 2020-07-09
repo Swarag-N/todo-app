@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useContext} from 'react'
 
 import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
@@ -17,14 +17,17 @@ import Checkbox from '@material-ui/core/Checkbox'
 import TodoEditForm from './TodoEditForm'
 import useToggle from '../hooks/useToggle'
 
-function TodoItem({id,text,completed,handleRemoveTodo,handleToggle,handleEditTodo}){
+import {TodoContext} from '../context/todos.context'
+
+function TodoItem({id,text,completed}){
+    const{removeTodo,toggleTodo} = useContext(TodoContext)
     const [isEditing,toggleEditing] = useToggle(false);
     return(
         <ListItem>
             {isEditing?
-                <TodoEditForm handleEditTodo={handleEditTodo} id={id} toggleEditing={toggleEditing} text={text}/>:
+                <TodoEditForm id={id} toggleEditing={toggleEditing} text={text}/>:
                 <>
-                    <ListItemIcon onClick={()=>handleToggle(id)}>
+                    <ListItemIcon onClick={()=>toggleTodo(id)}>
                         <Checkbox icon={<AssignmentTurnedInOutlinedIcon />} checkedIcon={<AssignmentTurnedInIcon />} color="primary" checked={completed}/>
                     </ListItemIcon>
                     <ListItemText key={id} style={{textDecoration:completed?"line-through":"none"}}>
@@ -34,7 +37,7 @@ function TodoItem({id,text,completed,handleRemoveTodo,handleToggle,handleEditTod
                             <IconButton edge="end" aria-label="edit" onClick={toggleEditing}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton edge="end" aria-label="delete" onClick={()=>handleRemoveTodo(id)}>
+                            <IconButton edge="end" aria-label="delete" onClick={()=>removeTodo(id)}>
                                 <DeleteIcon />
                             </IconButton>
                     </ListItemSecondaryAction>
