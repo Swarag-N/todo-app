@@ -1,4 +1,4 @@
-import React,{useContext} from 'react'
+import React,{useContext,memo} from 'react'
 
 import AssignmentTurnedInOutlinedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
@@ -17,17 +17,17 @@ import Checkbox from '@material-ui/core/Checkbox'
 import TodoEditForm from './TodoEditForm'
 import useToggle from '../hooks/useToggle'
 
-import {TodoContext} from '../context/todos.context'
+import {DispatchContext} from '../context/todos.context'
 
 function TodoItem({id,text,completed}){
-    const{removeTodo,toggleTodo} = useContext(TodoContext)
+    const dispatch = useContext(DispatchContext)
     const [isEditing,toggleEditing] = useToggle(false);
     return(
         <ListItem>
             {isEditing?
                 <TodoEditForm id={id} toggleEditing={toggleEditing} text={text}/>:
                 <>
-                    <ListItemIcon onClick={()=>toggleTodo(id)}>
+                    <ListItemIcon onClick={()=>dispatch({type:"TOGGLE", id:id})}>
                         <Checkbox icon={<AssignmentTurnedInOutlinedIcon />} checkedIcon={<AssignmentTurnedInIcon />} color="primary" checked={completed}/>
                     </ListItemIcon>
                     <ListItemText key={id} style={{textDecoration:completed?"line-through":"none"}}>
@@ -37,7 +37,7 @@ function TodoItem({id,text,completed}){
                             <IconButton edge="end" aria-label="edit" onClick={toggleEditing}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton edge="end" aria-label="delete" onClick={()=>removeTodo(id)}>
+                            <IconButton edge="end" aria-label="delete" onClick={()=>dispatch({type:"REMOVE",id:id})}>
                                 <DeleteIcon />
                             </IconButton>
                     </ListItemSecondaryAction>
@@ -47,4 +47,4 @@ function TodoItem({id,text,completed}){
     )
 }
 
-export default TodoItem;
+export default memo(TodoItem);

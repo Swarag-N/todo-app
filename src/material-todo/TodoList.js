@@ -10,7 +10,7 @@ import TodoItem from './TodoItem'
 import {TodoContext} from '../context/todos.context'
 
 function TodoList(){
-    const {todos} = useContext(TodoContext)
+    const todos = useContext(TodoContext)
     if (todos.length>0){
     return(
     <Paper>

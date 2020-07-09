@@ -12,7 +12,6 @@ import {TodosProvider} from '../context/todos.context'
 import TodoList from './TodoList'
 import TodoForm from './TodoForm'
 
-// import useTodoState from '../hooks/useTodoState
 
 function Todo(){
     return(
